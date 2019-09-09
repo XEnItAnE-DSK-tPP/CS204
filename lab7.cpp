@@ -25,7 +25,7 @@ bool isNum1Big(string str1, string str2)
             return false;
         }
     }
-    return false;
+    return true;
 }
 
 void push_num_sublist(string data, numNode* listHead)
