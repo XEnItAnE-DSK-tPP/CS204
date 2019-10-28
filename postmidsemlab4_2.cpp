@@ -1,42 +1,27 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-struct edge
+void insertEdge(int a, int b, vector<int> graph[])
 {
-    int v1,v2;
-};
-
-typedef vector<pair<edge,int>> Graph;
-
-void insertEdge(int a, int b, int wght, Graph* grph)
-{
-    edge* newEdge=(edge*)malloc(sizeof(edge));
-    newEdge->v1=a;
-    newEdge->v2=b;
-    (*grph).push_back(make_pair(*newEdge,wght));
+    graph[a].push_back(b);
+    graph[b].push_back(a);
 }
 
-void insertEdge2(int a, int b, vector<int> edges[])
+void isBipartiate(vector<int> grph[],bool* visit, int* color, int cur, bool* res)
 {
-    edges[a].push_back(b);
-    edges[b].push_back(a);
-}
-
-void isBipartiate(vector<int> edges[], bool* visit, int* color,int currentVer,bool*result)
-{
-    for(int u:edges[currentVer])
+    for(int u:grph[cur])
     {
         if(!visit[u])
         {
             visit[u]=true;
-            color[u]=3-color[currentVer];
-            isBipartiate(edges,visit,color,u,result);
-            if(!(*result)) break;
+            color[u]=3-color[cur];
+            isBipartiate(grph,visit,color,u,res);
+            if(!(*res)) break;
         }
-        else if(color[u]==color[currentVer])
+        else if(color[u]==color[cur])
         {
-            *result=false;
+            *res=false;
             break;
         }
     }
@@ -44,37 +29,40 @@ void isBipartiate(vector<int> edges[], bool* visit, int* color,int currentVer,bo
 
 int main()
 {
-    int n,m;
+    int n,m,count=0;
     cin>>n>>m;
-    Graph graph;
+    vector<int> graph[2*n];
     for(int i=0;i<m;i++)
     {
         int a,b,wght;
         cin>>a>>b>>wght;
         wght=wght%2;
-        if(wght==1) insertEdge(a,b,wght,&graph);
+        if(wght==1)
+        {
+            insertEdge(a,b,graph);
+        }
         else
         {
-            insertEdge(a,n,1,&graph);
-            insertEdge(n,b,1,&graph);
-            n++;
+            insertEdge(a,n,graph);
+            insertEdge(n,b,graph);
+            n++;count++;
         }
     }
-    vector<int> edges[n];
-    bool visit[n]={false},check=true;
-    int color[n]={0};
-    visit[0]=true;
-    color[0]=1;
-    for(pair<edge,int> u : graph)
+    m+=count;
+    if(m*4>n*n) cout<<"YES"<<endl;
+    else
     {
-        insertEdge2(u.first.v1,u.first.v2,edges);
-    }
-    isBipartiate(edges,visit,color,0,&check);
+        bool visit[n]={false},check=true;
+        int color[n]={0};
+        visit[0]=true;
+        color[0]=1;
+        isBipartiate(graph,visit,color,0,&check);
         for(int i=1;i<n&&!visit[i];i++)
         {
-            color[i]=1;
-            isBipartiate(edges,visit,color,i,&check);
+            isBipartiate(graph,visit,color,0,&check);
         }
-        if(!check) cout<<"YES"<<endl;
-        else cout<<"NO"<<endl;
+        if(check) cout<<"NO"<<endl;
+        else cout<<"YES"<<endl;
+    }
+    return 0;
 }
