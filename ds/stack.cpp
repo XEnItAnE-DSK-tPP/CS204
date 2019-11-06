@@ -39,9 +39,13 @@ void Stack::push(int x)
 void Stack::pop()
 {
     Node* tmp=list.nxt;
-    list.nxt=tmp->nxt;
-    free(tmp);
-    height--;
+    if(tmp)
+    {
+        list.nxt=tmp->nxt;
+        free(tmp);
+        height--;
+    }
+    else return;
 }
 bool Stack::empty()
 {
@@ -53,7 +57,11 @@ int Stack::size()
 }
 int Stack::top()
 {
-    return list.nxt->data;
+    if(list.nxt)
+    {
+        return list.nxt->data;
+    }
+    else return INT_MIN;
 }
 
 
