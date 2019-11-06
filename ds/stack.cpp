@@ -11,9 +11,10 @@ class Node
 
 class Stack
 {
-    public:
+    private:
         int height;
         Node list;
+    public:
         Stack();
         void push(int);
         void pop();
@@ -78,17 +79,17 @@ int main()
             }
             case 3:
             {
-                cout<<newStack.top();
+                cout<<newStack.top()<<endl;
                 break;
             }
             case 4:
             {
-                cout<<newStack.size();
+                cout<<newStack.size()<<endl;
                 break;
             }
             case 5:
             {
-                if(newStack.empty)cout<<"Empty"<<endl;
+                if(newStack.empty()) cout<<"Empty"<<endl;
                 else cout<<"Not Empty"<<endl;
                 break;
             }
