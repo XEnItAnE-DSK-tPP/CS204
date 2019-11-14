@@ -11,6 +11,7 @@ public:
     Graph(int V);
     void addEdge(int v, int w); 
     void DFS(int v); 
+    void DFSUtil(int v, bool visited[]);
 }; 
   
 Graph::Graph(int V) 
@@ -30,7 +31,7 @@ void Graph::DFSUtil(int v, bool visited[])
     cout << v << " "; 
     list<int>::iterator i; 
     for (i = adj[v].begin(); i != adj[v].end(); ++i) 
-        if (!visited[*i]) 
+        if (!visited[*i])
             DFSUtil(*i, visited); 
 } 
 void Graph::DFS(int v) 
@@ -44,6 +45,18 @@ void Graph::DFS(int v)
   
 int main() 
 {
-  
+    int n,m;
+    cin>>n>>m;
+    Graph g=Graph(n);
+    while(m--)
+    {
+        int x,y;
+        cin>>x>>y;
+        g.addEdge(x,y);
+    }
+
+    int z;
+    cin>>z;
+    g.DFS(z);
     return 0; 
 } 
