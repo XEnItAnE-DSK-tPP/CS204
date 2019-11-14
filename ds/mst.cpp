@@ -68,6 +68,7 @@ void cycle(Graph* graph)
     int V = graph->V;
     int e = 0;
     int i = 0;
+    vector<Edge> mst;
     qsort(graph->edges, graph->E, sizeof(graph->edges[0]), compEdge);  
     subset *subsets = new subset[( V * sizeof(subset) )];  
     for (int v = 0; v < V; ++v)  
@@ -83,12 +84,15 @@ void cycle(Graph* graph)
         int y = find(subsets, next_edge.dest);  
         if (x != y)  
         {  
-            res+=next_edge.wght;
+            mst.push_back(next_edge);
             Union(subsets, x, y);
             e++;
         }
     }
-    cout<<res<<endl;
+    for(int i=0;i<mst.size();i++)
+    {
+        cout<<(mst.at(i)).src<<" "<<(mst.at(i)).dest<<" "<<(mst.at(i)).wght<<endl;
+    }
 }
 
 int main()
